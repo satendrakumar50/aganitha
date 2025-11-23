@@ -27,19 +27,67 @@ app.use((req, res, next) => {
 // }));
 // Dev-friendly CORS — put this BEFORE any route definitions
 
+// <-- FIX: CORS setup  aur jab hame need hoge local check karna ka so below code are use-->
+// const FRONTEND = process.env.FRONTEND_ORIGIN || 'http://localhost:5173';
+// app.use(cors({
+//   origin: function(origin, callback) {
+//     if (!origin) return callback(null, true); // allow curl / non-browser
+//     const allowed = [FRONTEND, 'http://127.0.0.1:5173'];
+//     if (allowed.includes(origin)) return callback(null, true);
+//     return callback(new Error('Not allowed by CORS'));
+//   },
+//   methods: ['GET','POST','OPTIONS'],
+//   allowedHeaders: ['Content-Type','Authorization'],
+//   credentials: true
+// }));
 
-const FRONTEND = process.env.FRONTEND_ORIGIN || 'http://localhost:5173';
+
+
+
+
+
+
+
+// Use the production frontend origin (Vercel)
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://aganitha-8.onrender.com';
+
+// Simple, explicit CORS for production
 app.use(cors({
-  origin: function(origin, callback) {
-    if (!origin) return callback(null, true); // allow curl / non-browser
-    const allowed = [FRONTEND, 'http://127.0.0.1:5173'];
-    if (allowed.includes(origin)) return callback(null, true);
-    return callback(new Error('Not allowed by CORS'));
-  },
+  origin: FRONTEND_ORIGIN,
   methods: ['GET','POST','OPTIONS'],
   allowedHeaders: ['Content-Type','Authorization'],
-  credentials: true
+  credentials: false
 }));
+
+// Explicitly allow preflight on API routes (avoid app.options('*') which can break some setups)
+app.options('/api/*', cors({
+  origin: FRONTEND_ORIGIN,
+  methods: ['GET','POST','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  credentials: false
+}));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // DO NOT add app.options('*', cors()); — it causes path-to-regexp errors on some Express versions
 
