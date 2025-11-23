@@ -3,8 +3,8 @@ import ShortenForm from './components/ShortenForm'
 import LinksList from './components/LinksList'
 
 
-const API = import.meta.env.VITE_API_BASE || 'http://localhost:4000'
-
+// const API = import.meta.env.VITE_API_BASE || 'http://localhost:4000'
+const API = import.meta.env.VITE_API_BASE || 'https://aganitha-8.onrender.com'
 
 export default function App() {
 const [links, setLinks] = useState([])

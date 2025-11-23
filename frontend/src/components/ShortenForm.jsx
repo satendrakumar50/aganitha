@@ -12,7 +12,7 @@ async function submit(e) {
 e.preventDefault()
 setError(null)
 setLoading(true)
-console.log("Calling backend:", `${apiBase}/api/shorten`)
+// console.log("Calling backend:", `${apiBase}/api/shorten`)
 try {
 const res = await fetch(`${apiBase}/api/shorten`, {
 method: 'POST',
